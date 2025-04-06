@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <style>
+        /* Background Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('https://png.pngtree.com/thumb_back/fh260/background/20230928/pngtree-a-mesmerizing-3d-timepiece-the-stopwatch-image_13511088.png') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 450px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .time {
+            font-size: 40px;
+            font-weight: bold;
+            color: #333;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            background-color: #2575fc;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 700;
+        }
+
+        button:hover {
+            background-color: #6a11cb;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .buttons button {
+            width: 30%;
+        }
+
+        /* Running GIF Styling */
+        #runningGif {
+            display: none;
+            margin-top: 20px;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Stopwatch</h2>
+        <div style="width: 400px;" class="time" id="display">00:00:00</div>
+        <img style="margin-left: 150px;" id="runningGif" src="https://media.tenor.com/2roX3uxz_68AAAAC/running.gif" alt="Running GIF">
+        <div class="buttons">
+            <button style="background-color: greenyellow;" onclick="startTimer()">Start</button>
+            <button style="background-color: red;" onclick="stopTimer()">Stop</button>
+            <button style="background-color: yellow;" onclick="resetTimer()">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        let timer;
+        let isRunning = false;
+        let hours = 0, minutes = 0, seconds = 0;
+        let runningGif = document.getElementById("runningGif");
+
+        function startTimer() {
+            if (!isRunning) {
+                isRunning = true;
+                timer = setInterval(updateTime, 1000);
+                runningGif.style.display = "block";  // Show GIF
+            }
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+            isRunning = false;
+            // No changes to the GIF here
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            isRunning = false;
+            hours = 0;
+            minutes = 0;
+            seconds = 0;
+            updateDisplay();
+            runningGif.style.display = "none";  // Hide GIF when reset
+        }
+
+        function updateTime() {
+            seconds++;
+            if (seconds === 60) {
+                seconds = 0;
+                minutes++;
+            }
+            if (minutes === 60) {
+                minutes = 0;
+                hours++;
+            }
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            document.getElementById("display").innerText =
+                (hours < 10 ? "0" + hours : hours) + ":" +
+                (minutes < 10 ? "0" + minutes : minutes) + ":" +
+                (seconds < 10 ? "0" + seconds : seconds);
+        }
+    </script>
+</body>
+</html>
